@@ -3,6 +3,8 @@
 import sys
 import tty
 import termios
+import serial
+
 # import pysabertooth
 
 # motors = pysabertooth.Sabertooth(
@@ -12,7 +14,7 @@ import termios
 #     timeout=1.0
 # )
 
-sabertooth = open("test", "w")
+sabertooth = serial.Serial("/dev/ttyACM0", 115200)
 print("m1: start up")
 
 speed = 0
