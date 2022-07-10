@@ -3,34 +3,41 @@
 import sys
 import tty
 import termios
-import pysabertooth
+# import pysabertooth
 
-motors = pysabertooth.Sabertooth(
-    '/dev/ttyACM0',
-    baudrate=115200,
-    address=128,
-    timeout=0.1
-)
+# motors = pysabertooth.Sabertooth(
+#     '/dev/ttyACM0',
+#     baudrate=115200,
+#     address=128,
+#     timeout=1.0
+# )
+
+sabertooth = open("test", "w")
+print("m1: start up")
+
 speed = 0
 old_settings = None
 
 def clamp(l, h, v): return max(l, min(h, v))
 
 def increment():
-    adjust_speed(+5)
+    adjust_speed(+100)
 
 def decrement():
-    adjust_speed(-5)
+    adjust_speed(-100)
 
 def adjust_speed(increment):
     global speed
-    speed = clamp(-100, 100, speed + increment)
-    motors.drive(1, speed)
+    speed = clamp(-2048, 2048, speed + increment)
+    print(f"m1: {speed}", file=sabertooth)
 
 def stop():
     global speed
     speed = 0
-    motors.stop()
+    print(f"m1: 0", file=sabertooth)
+    print(f"m1: shut down", file=sabertooth)
+
+# UI **********************************************************
 
 def raw_mode():
     global old_settings
