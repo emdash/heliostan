@@ -15,12 +15,14 @@ import serial
 # )
 
 sabertooth = serial.Serial("/dev/ttyACM0", 115200)
-print("m1: start up")
+
+sprint("m1: start up")
 
 speed = 0
 old_settings = None
 
 def clamp(l, h, v): return max(l, min(h, v))
+def sprint(s):      print(bytes(s, "utf8"), file=sabertooth)
 
 def increment():
     adjust_speed(+100)
@@ -31,13 +33,13 @@ def decrement():
 def adjust_speed(increment):
     global speed
     speed = clamp(-2048, 2048, speed + increment)
-    print(f"m1: {speed}", file=sabertooth)
+    sprint(f"m1: {speed}")
 
 def stop():
     global speed
     speed = 0
-    print(f"m1: 0", file=sabertooth)
-    print(f"m1: shut down", file=sabertooth)
+    sprint(f"m1: 0")
+    sprint(f"m1: shut down")
 
 # UI **********************************************************
 
