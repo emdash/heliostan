@@ -101,19 +101,19 @@ def query(cmd):
 
 def get_battery():
     response = query("m1: getb")
-    return float(response.lstrip("M1:B")) / 10.0
+    return float(response.split("M1:B")[1]) / 10.0
 
 def get_current():
     response = query("m1: getc")
-    return float(response.lstrip("M1:C")) / 10.0
+    return float(response.split("M1:C")[1]) / 10.0
 
 def get_a1():
     response = query("a1: get")
-    return float(response.lstrip("A1: "))
+    return float(response.split("A1: ")[1])
 
 def get_a2():
     response = query("a2: get")
-    return float(response.lstrip("A2: "))
+    return float(response.split("A2: ")[1])
     
 # UI **************************************************************************
 
