@@ -1,5 +1,24 @@
 #!/usr/bin/env python3
 
+"""Script for manual control of heliostan via Sabertooth 2x32"""
+
+# Notes on the hardware configuration: this script talks to a
+# Sabertooth 2x32 from Dimension Engineering via USB and the legacy
+# text protocol. The Expected dip switch configuration is:
+#
+# 1 2 3 4 5 6
+# 1 0 1 1 1 1
+#
+# I had tried other libraries but they appear to only support the
+# packet serial protocol, which doesn't work over USB. For the moment,
+# I intend to run this off of a linux host PC, and don't want to
+# depend on the entire mono framework in order to use their C#
+# library. Dimension were kind enough to include a plain-text
+# protocol, so let's use it.
+#
+# For now this just handles a single axis. When I get that working,
+# I'll extend it to support the other axis.
+
 import sys
 import tty
 import termios
@@ -12,6 +31,8 @@ def debug(*args):
 # Simulator *******************************************************************
 
 class Simulator:
+
+    """Simulates the Sabertooth 2x32 partially"""
 
     def __init__(self):
         self.m1 = 0
@@ -141,7 +162,7 @@ def idle_queries():
 
 def main():
     try:
-        stop()
+        start()
         setup()
         c = None
         data = idle_queries()
